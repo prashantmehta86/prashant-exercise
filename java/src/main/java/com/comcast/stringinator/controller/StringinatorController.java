@@ -7,7 +7,6 @@ import com.comcast.stringinator.service.StringinatorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,6 +19,7 @@ public class StringinatorController {
 
     @GetMapping("/")
 	public String index() {
+        logger.info("Request received for index page.");
 		return "<pre>\n" +
 		"Welcome to the Stringinator 3000 for all of your string manipulation needs.\n" +
 		"GET / - You're already here! \n" +
@@ -29,19 +29,22 @@ public class StringinatorController {
 	}
 
     @GetMapping(path = "/stringinate", produces = "application/json")
-    public StringinatorResult stringinateGet(@RequestParam(name = "input", required = true) @NonNull String input) {
+    public StringinatorResult stringinateGet(@RequestParam(name = "input", required = true) String input) {
+        logger.info("Request received for /stringinate path, with input: {}", input);
         StringinatorResult result = stringinatorService.stringinate(new StringinatorInput(input));
         return result;
     }
 
 	@PostMapping(path = "/stringinate", consumes = "application/json", produces = "application/json")
     public StringinatorResult stringinate(@RequestBody StringinatorInput input) {
+        logger.info("Request received for /stringinate path, with input: {}", input.getInput());
         StringinatorResult result = stringinatorService.stringinate(input);
         return result;
     }
 
     @GetMapping(path = "/stats")
     public StatsResult stats() {
+        logger.info("Request received for /stats path");
         StatsResult result = stringinatorService.stats();
         return result;
     }

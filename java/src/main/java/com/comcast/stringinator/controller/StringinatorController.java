@@ -28,6 +28,7 @@ public class StringinatorController {
 		"</pre>";
 	}
 
+    //TODO: Add input validation.
     @GetMapping(path = "/stringinate", produces = "application/json")
     public StringinatorResult stringinateGet(@RequestParam(name = "input", required = true) String input) {
         logger.info("Request received for /stringinate path, with input: {}", input);
@@ -35,6 +36,8 @@ public class StringinatorController {
         return result;
     }
 
+
+    //TODO: Add input validation.
 	@PostMapping(path = "/stringinate", consumes = "application/json", produces = "application/json")
     public StringinatorResult stringinate(@RequestBody StringinatorInput input) {
         logger.info("Request received for /stringinate path, with input: {}", input.getInput());

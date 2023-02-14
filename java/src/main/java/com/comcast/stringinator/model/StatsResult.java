@@ -9,4 +9,5 @@ import java.util.Map;
 @AllArgsConstructor
 public class StatsResult {
     private final Map<String, Integer> inputs;
+    private final String most_popular;
 }

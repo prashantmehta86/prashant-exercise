@@ -9,6 +9,6 @@ import lombok.Data;
 public class StringinatorResult {
     private final String input;
     private final Integer length;
-    private final String mostFrequentCharacter;
-    private final Integer mostFrequentCharacterOccurrenceCount;
+    private final String most_frequent_character;
+    private final Integer most_frequent_character_occurrence_count;
 }

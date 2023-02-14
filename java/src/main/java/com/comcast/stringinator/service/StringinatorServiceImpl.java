@@ -9,7 +9,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,7 +36,14 @@ public class StringinatorServiceImpl implements StringinatorService {
 
     @Override
     public StatsResult stats() {
-        return new StatsResult(seenStrings);
+        if (seenStrings.isEmpty()) {
+            logger.info("There are no elements yet in the HashMap, returning empty results.");
+            return new StatsResult(seenStrings, "");
+        }
+        final Map.Entry<String, Integer> mostPopularKey = Collections.max(seenStrings.entrySet(),
+                Comparator.comparingInt(Map.Entry::getValue));
+        logger.info("Most Popular key: {} from stats: {}", mostPopularKey.getKey(), seenStrings.entrySet());
+        return new StatsResult(seenStrings, mostPopularKey.getKey());
     }
 
     /**

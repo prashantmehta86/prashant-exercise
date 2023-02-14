@@ -1,15 +1,12 @@
 package com.comcast.stringinator.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
 import java.util.Map;
 
+@Data
+@AllArgsConstructor
 public class StatsResult {
     private final Map<String, Integer> inputs;
-
-    public StatsResult(Map<String, Integer> inputs) {
-        this.inputs = inputs;
-    }
-
-    public Map<String, Integer> getInputs() {
-        return inputs;
-    }
 }

@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 
 @Service
 public class StringinatorServiceImpl implements StringinatorService {
@@ -38,17 +39,20 @@ public class StringinatorServiceImpl implements StringinatorService {
     public StatsResult stats() {
         if (seenStrings.isEmpty()) {
             logger.info("There are no elements yet in the HashMap, returning empty results.");
-            return new StatsResult(seenStrings, "");
+            return new StatsResult(seenStrings, "", "");
         }
         final Map.Entry<String, Integer> mostPopularKey = Collections.max(seenStrings.entrySet(),
                 Comparator.comparingInt(Map.Entry::getValue));
         logger.info("Most Popular key: {} from stats: {}", mostPopularKey.getKey(), seenStrings.entrySet());
-        return new StatsResult(seenStrings, mostPopularKey.getKey());
+        String longestString = Collections.max(seenStrings.keySet(),
+                Comparator.comparingInt(String::length));
+        logger.info("Longest key: {} from stats: {}", longestString, seenStrings.entrySet());
+        return new StatsResult(seenStrings, mostPopularKey.getKey(), longestString);
     }
 
     /**
      * Creates a mapping for character count in a string and returns the most frequently occurring character.
-     * If all the characters have same occurrence it will return the first entry. This is case-sensitive so upper case and
+     * If all the characters have same occurrence it will return the last character entry. This is case-sensitive so upper case and
      * lower case character would be counted as a separate entity.
      *
      * @param input NonNull Input string

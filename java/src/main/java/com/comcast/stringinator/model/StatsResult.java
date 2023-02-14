@@ -10,4 +10,5 @@ import java.util.Map;
 public class StatsResult {
     private final Map<String, Integer> inputs;
     private final String most_popular;
+    private final String longest_input_received;
 }

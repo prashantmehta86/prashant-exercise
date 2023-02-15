@@ -1,7 +1,6 @@
 package com.comcast.stringinator.service;
 
 import com.comcast.stringinator.controller.StringinatorController;
-import com.comcast.stringinator.exception.InvalidInputException;
 import com.comcast.stringinator.model.StatsResult;
 import com.comcast.stringinator.model.StringinatorInput;
 import com.comcast.stringinator.model.StringinatorResult;
@@ -9,13 +8,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Function;
 
 @Service
 public class StringinatorServiceImpl implements StringinatorService {
@@ -65,11 +62,6 @@ public class StringinatorServiceImpl implements StringinatorService {
         for (int i = 0; i < input.length(); i++) {
             Integer charValue = characterOccurrence.getOrDefault(input.charAt(i), 0) + 1;
             characterOccurrence.put(input.charAt(i), charValue);
-        }
-        //TODO: Translate this to HTTP 4xx error for the end user or check this in controller to begin with.
-        if (characterOccurrence.isEmpty()) {
-            logger.error("No mapping created from the input string.");
-            throw new InvalidInputException("Failed to read string, please check the input.");
         }
         // Loops through the entries and finds the highest occurrence character with its value.
         for (Map.Entry<Character, Integer> entry: characterOccurrence.entrySet()) {

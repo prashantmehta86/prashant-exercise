@@ -7,9 +7,18 @@ import com.comcast.stringinator.service.StringinatorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
 
 @RestController
+@Validated
 public class StringinatorController {
 
     private static final Logger logger = LoggerFactory.getLogger(StringinatorController.class);
@@ -28,18 +37,17 @@ public class StringinatorController {
 		"</pre>";
 	}
 
-    //TODO: Add input validation.
+    //TODO: Throw HTTP 4xx error code for this validation.
     @GetMapping(path = "/stringinate", produces = "application/json")
-    public StringinatorResult stringinateGet(@RequestParam(name = "input", required = true) String input) {
+    public StringinatorResult stringinateGet(@RequestParam(name = "input", required = true) @Min(1) String input) {
         logger.info("Request received for /stringinate path, with input: {}", input);
         StringinatorResult result = stringinatorService.stringinate(new StringinatorInput(input));
         return result;
     }
 
 
-    //TODO: Add input validation.
 	@PostMapping(path = "/stringinate", consumes = "application/json", produces = "application/json")
-    public StringinatorResult stringinate(@RequestBody StringinatorInput input) {
+    public StringinatorResult stringinate(@Valid @RequestBody StringinatorInput input) {
         logger.info("Request received for /stringinate path, with input: {}", input.getInput());
         StringinatorResult result = stringinatorService.stringinate(input);
         return result;
@@ -51,4 +59,5 @@ public class StringinatorController {
         StatsResult result = stringinatorService.stats();
         return result;
     }
+
 }

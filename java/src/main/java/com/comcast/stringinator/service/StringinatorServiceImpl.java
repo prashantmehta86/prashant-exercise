@@ -4,9 +4,9 @@ import com.comcast.stringinator.controller.StringinatorController;
 import com.comcast.stringinator.model.StatsResult;
 import com.comcast.stringinator.model.StringinatorInput;
 import com.comcast.stringinator.model.StringinatorResult;
+import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;

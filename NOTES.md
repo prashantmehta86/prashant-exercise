@@ -1,6 +1,30 @@
 ## General ##
 
-Adding testing results as I add new feature. 
+For the requested task, I have added the changes in the `StringinatorServiceImpl` file with the implementation details discussed below.
+
+* To find frequently occurring character in the string, I have traveresed through each character of the string and maintained their character count mappings in `characterOccurrence` HashMap.
+* Once we have all the string character to occurrence count mappings created in HashMap, I have traversed through the HashMap to get an entry with highest chracter count occurence and return that from `findFrequentlyOccurringCharacter` method.
+   * To track most frequently occurring character along with its count, I decided to add `most_frequent_character` and `most_frequent_character_occurrence_count` as class fields so that it is easier for an end user to parse them from the response and get the data. 
+* For stats API, computing most seen string I have used similar HashMap traversal approach to find the key with maximum value. For getting the mostPopularKey entered by the user I have traversed through the `seenStrings` HashMap and compared the values to return the key with highest value.
+* For `longest_input_received` stats, I have traversed through the HashMap keyset to get the keys with longest length and return that from the API.
+
+### Refactoring ###
+
+* I have used Lombok Utils in model package to add Annotation processing, which can easily crate complex with minimum code.
+    * I have added Lombok `@NonNull` validation check in `StringinatorServiceImpl` class methods with the intention to validate them via unit tests. To keep the exercise time restrictions to a max of 2 hours, I have opted for alternate developer choice feature.
+    * Additionally some of the input validation done via Spring boot validation accomodates for `StringinatorServiceImpl` method validations. 
+* When I was building the code, I had to add print statement to test my code. So instead of adding them at multiple places I decided to use logging which can help user troubleshoot the issue and with no throw away work.
+
+### Developer Choice Feature ###
+
+* I have added input validation as it was required as a part of performing testing of the service (as shown below). 
+* Logging was organically added to in-corporate faster development as it ensured that there would not be any throw away work from it.
+
+### Challenges ###
+
+* We have a MVC framework (similar to Spring boot) in my company with different semantics and layout, so initially it took some time to add get accustomed to this framework.
+
+
 
 ## Testing ##
 

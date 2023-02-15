@@ -192,3 +192,79 @@ Connection: close
 
 {"timestamp":"2023-02-15T02:26:20.603+00:00","status":400,"error":"Bad Request","path":"/stringinate"}
 ```
+
+13. Performing String validation tests with ignoring spaces, punctuation and invalid strings.
+
+* Invalid input
+
+```
+Request:
+curl -X GET -H 'Content-Type: application/json' "http://localhost:8080/stringinate?input=
+
+Response:
+{"timestamp":"2023-02-15T04:30:36.454+00:00","status":400,"error":"Bad Request","path":"/stringinate"}
+
+```
+
+```
+Request:
+
+curl -X GET -H 'Content-Type: application/json' "http://localhost:8080/stringinate?input=''"
+
+Response:
+{"timestamp":"2023-02-15T04:30:26.942+00:00","status":400,"error":"Bad Request","path":"/stringinate"}
+
+```
+
+* Sanitizing string with removing spaces and puntuation.
+
+```
+Request:
+curl -X GET -H 'Content-Type: application/json' "http://localhost:8080/stringinate?input=test45
+
+Response:
+{"input":"test45","length":6,"most_frequent_character":"t","most_frequent_character_occurrence_count":2
+```
+
+```
+Request:
+
+curl -X GET -H 'Content-Type: application/json' "http://localhost:8080/stringinate?input=test%2045"
+
+Response:
+
+{"input":"test45","length":6,"most_frequent_character":"t","most_frequent_character_occurrence_count":2}
+
+```
+
+```
+Request:
+curl -X GET -H 'Content-Type: application/json' "http://localhost:8080/stringinate?input=test-45"
+
+Resposne:
+
+{"input":"test45","length":6,"most_frequent_character":"t","most_frequent_character_occurrence_count":2}
+
+```
+
+```
+Request:
+curl -id '{"input":"test       45"}' -H 'Content-Type: application/json' http://localhost:8080/stringinate
+
+Response:
+HTTP/1.1 200
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Wed, 15 Feb 2023 04:38:07 GMT
+
+{"input":"test45","length":6,"most_frequent_character":"t","most_frequent_character_occurrence_count":2}%
+```
+
+* Stats API
+```
+Request:
+curl -X GET -H 'Content-Type: application/json' "http://localhost:8080/stats
+
+Response:
+{"inputs":{"test45":4},"most_popular":"test45","longest_input_received":"test45"}
+```
